@@ -268,7 +268,6 @@ sub get_instance_cluster
   open FILE, "/etc/ecs/ecs.config" or die $!;
   while(<FILE>) {
     if (/ECS_CLUSTER=([A-Za-z0-9\-\_]+)/) {
-      print "$_\n";
       return $1;
     }
   }

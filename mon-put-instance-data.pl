@@ -353,9 +353,11 @@ elsif (defined($aggregated)) {
 
 my $image_id;
 my $instance_type;
+my $cluster_name;
 if ($aggregated) {
   $image_id = CloudWatchClient::get_image_id();
   $instance_type = CloudWatchClient::get_instance_type();
+  $cluster_name = CloudWatchClient::get_instance_cluster();
 }
 
 if ($auto_scaling && lc($auto_scaling) ne 'only') {
@@ -473,6 +475,11 @@ sub add_metric
 
   if ($instance_type) {
     %dims = (('InstanceType' => $instance_type), %xdims);
+    add_single_metric($name, $unit, $value, \%dims);
+  }
+
+  if ($cluster_name) {
+    %dims = (('Cluster' => $cluster_name), %xdims);
     add_single_metric($name, $unit, $value, \%dims);
   }
 

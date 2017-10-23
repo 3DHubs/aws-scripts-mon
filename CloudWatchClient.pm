@@ -261,6 +261,21 @@ sub get_auto_scaling_group
 }
 
 #
+# Obtains EC2 instance cluster from the ECS config.
+#
+sub get_instance_cluster
+{
+  open FILE, "/etc/ecs/ecs.config" or die $!;
+  while(<FILE>) {
+    if (/ECS_CLUSTER=([A-Za-z0-9\-\_]+)/) {
+      print "$_\n";
+      return $1;
+    }
+  }
+  return '';
+}
+
+#
 # Obtains EC2 instance id from meta data.
 #
 sub get_instance_id
